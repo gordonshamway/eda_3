@@ -89,3 +89,55 @@ dev.off()
 ```
 
 5. How did Motor Vehicle Sources in Baltimore over the time period behave?
+```{r Answering question 5}
+#filter the data
+library(dplyr)
+filter5 <- filter(SCC, SCC.Level.One == "Mobile Sources", SCC.Level.Two == "Highway Vehicles - Gasoline")
+bm.filtered <- bm[(bm$SCC %in% filter5$SCC),]
+
+#aggregate it
+bm.aggregated <- aggregate(Emissions ~ year, data = bm.filtered, FUN = sum)
+
+#plot it 
+library(ggplot2)
+#png("plot5.png")
+ggplot(bm.aggregated, aes(x=year, y=Emissions)) + geom_line() +
+    ggtitle("Emissions from motor vehicle sources")
+dev.off()
+```
+
+6. compare motor vehicle sources emissions from Baltimore vs. LA
+```{r Answering question 6}
+
+#construct the filter
+library(dplyr)
+general_filter <- filter(SCC, SCC.Level.One == "Mobile Sources", SCC.Level.Two == "Highway Vehicles - Gasoline")
+
+#filter the data for Balitmore
+bm.filtered <- bm[(bm$SCC %in% general_filter$SCC),]
+
+#aggregate BA
+bm.aggregated <- aggregate(Emissions ~ year, data = bm.filtered, FUN = sum)
+
+#filter the data for LA
+la <- with(NEI, fips == "06037")
+la <- NEI[la, ]
+la.filtered <- la[(la$SCC %in% general_filter$SCC),]
+
+#aggregate LA
+la.aggregated <- aggregate(Emissions ~ year, data = la.filtered, FUN = sum)
+
+#plot everything together 
+library(ggplot2)
+#png("plot6.png")
+
+bm.aggregated$City <- "Baltimore"
+la.aggregated$City <- "LA"
+t <- rbind(bm.aggregated, la.aggregated)
+qplot(year, Emissions, data=t, geom="line", color=City) +
+  geom_point(size=3) +
+  xlab("Year") +
+  ylab("P25 Emissions [tons]") +
+  ggtitle("P2.5 Emissions [tons] per year for Baltimore and LA")
+dev.off()
+```
