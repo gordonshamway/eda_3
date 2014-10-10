@@ -18,5 +18,7 @@ coalcombustedAggregated <- aggregate(Emissions ~ year, data = NEI_coal_combusted
 library(ggplot2)
 png("plot4.png")
 ggplot(coalcombustedAggregated, aes(x=year, y=Emissions)) + geom_line() +
+  xlab("Year") +
+  ylab("P2.5 Emissions [tons]") +
   ggtitle("Emissions from coal combustion-related sources")
 dev.off()

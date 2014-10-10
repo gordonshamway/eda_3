@@ -19,6 +19,7 @@ colnames(bm_data) <- c("Year", "Source_Type", "Emission")
 library(ggplot2)
 png("plot3.png")
 gp <- ggplot(data = bm_data, aes(x=Year, y=Emission, group=Source_Type, color=Source_Type)) +geom_line() +geom_point()
+gp <- gp + xlab("Year") + ylab("P25 Emissions [tons]")
 gp <- gp + ggtitle("Total Emmissions by Pollution Source and Year for Baltimore")
 gp
 dev.off()

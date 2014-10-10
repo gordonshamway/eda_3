@@ -36,7 +36,7 @@ png("plot6.png")
 qplot(year, Emissions, data=t, geom="line", color=City) +
   geom_point(size=3) +
   xlab("Year") +
-  ylab("P25 Emissions [tons]") +
+  ylab("P2.5 Emissions [tons]") +
   ggtitle("P2.5 Emissions [tons] per year for Baltimore and LA")
 dev.off()
 

@@ -21,5 +21,7 @@ bm.aggregated <- aggregate(Emissions ~ year, data = bm.filtered, FUN = sum)
 library(ggplot2)
 png("plot5.png")
 ggplot(bm.aggregated, aes(x=year, y=Emissions)) + geom_line() +
+  xlab("Year") +
+  ylab("P2.5 Emissions [tons]") +
   ggtitle("Emissions from motor vehicle sources")
 dev.off()
